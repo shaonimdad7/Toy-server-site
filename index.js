@@ -61,19 +61,7 @@ async function run() {
             const result = await toysCollection.insertOne(newToyItem);
             res.send(result);
         })
-        // app.patch('/items/:id', async (req, res) => {
-        //     const id = req.params.id;
-        //     const filter = { _id: new ObjectId(id) };
-        //     const updatedMyToys = req.body;
-        //     console.log(updatedMyToys);
-        //     const updateDoc = {
-        //         $set: {
-        //             status: updatedMyToys.status
-        //         },
-        //     };
-        //     const result = await toysCollection.updateOne(filter, updateDoc);
-        //     res.send(result);
-        // });
+
         app.put('/items/:id', async (req, res) => {
             const id = req.params.id;
             const filter = { _id: new ObjectId(id) }
