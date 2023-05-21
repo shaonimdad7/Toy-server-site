@@ -29,11 +29,11 @@ async function run() {
 
         const toysCollection = client.db('toyShop').collection('items')
 
-        // app.get('/items', async (req, res) => {
-        //     const cursor = toysCollection.find();
-        //     const result = await cursor.toArray();
-        //     res.send(result);
-        // })
+        app.get('/items', async (req, res) => {
+            const cursor = toysCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
 
         app.get('/items/:id', async (req, res) => {
             const id = req.params.id;
@@ -59,6 +59,44 @@ async function run() {
             const newToyItem = req.body;
             console.log(newToyItem);
             const result = await toysCollection.insertOne(newToyItem);
+            res.send(result);
+        })
+        // app.patch('/items/:id', async (req, res) => {
+        //     const id = req.params.id;
+        //     const filter = { _id: new ObjectId(id) };
+        //     const updatedMyToys = req.body;
+        //     console.log(updatedMyToys);
+        //     const updateDoc = {
+        //         $set: {
+        //             status: updatedMyToys.status
+        //         },
+        //     };
+        //     const result = await toysCollection.updateOne(filter, updateDoc);
+        //     res.send(result);
+        // });
+        app.put('/items/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) }
+            const options = { upsert: true };
+            const updatedMyToys = req.body
+            const updated = {
+                $set: {
+                    description: updatedMyToys.description,
+                    price: updatedMyToys.price,
+                    available: updatedMyToys.available,
+                    subCategory: updatedMyToys.subCategory,
+                    name: updatedMyToys.name
+                }
+            }
+            const result = await toysCollection.updateOne(filter, updated, options)
+            res.send(result)
+        })
+
+
+        app.get('/items/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) }
+            const result = await toysCollection.findOne(query);
             res.send(result);
         })
 
