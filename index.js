@@ -39,7 +39,7 @@ async function run() {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) }
             const options = {
-                projection: { name: 1, img: 1, price: 1, rating: 1, available: 1, email: 1, sellerName: 1, why: 1, description: 1 }
+                projection: { name: 1, img: 1, price: 1, rating: 1, available: 1, email: 1, sellerName: 1, why: 1, description: 1, subCategory: 1 }
             };
             const result = await toysCollection.findOne(query, options);
             res.send(result)
@@ -59,6 +59,13 @@ async function run() {
             const newToyItem = req.body;
             console.log(newToyItem);
             const result = await toysCollection.insertOne(newToyItem);
+            res.send(result);
+        })
+
+        app.delete('/items/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) }
+            const result = await toysCollection.deleteOne(query);
             res.send(result);
         })
 
